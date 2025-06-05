@@ -1,6 +1,16 @@
 <script setup lang="ts">
 import { onMounted, onBeforeUnmount } from 'vue';
 import AppLayout from '@/layouts/AppLayout.vue';
+import { type BreadcrumbItem } from '@/types';
+
+
+
+const breadcrumbs: BreadcrumbItem[] = [
+    {
+        title: 'Dashboard',
+        href: '/dashboard',
+    },
+];
 
 //(work in progress for calendar)
 // const datePickerWrapper = document.querySelector(".date-picker");
