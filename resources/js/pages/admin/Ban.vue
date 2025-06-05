@@ -84,11 +84,22 @@ onMounted(() => {
             </div>
 
             <!-- User Cards -->
-            <div v-else class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-2">
+            <div v-else class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-2 mb-16">
                 <div v-for="user in users" :key="user.id" class="bg-white rounded-lg border border-gray-200 shadow-sm p-4">
                     <div class="space-y-3">
                         <div class="flex items-center justify-between">
-                            <h3 class="text-lg font-medium text-gray-900">{{ user.name }}</h3>
+                            <div class="flex items-center space-x-3">
+                                <img
+                                    v-if="user.avatar || user.avatar_url"
+                                    :src="user.avatar_url || ('/storage/' + user.avatar)"
+                                    alt="Avatar"
+                                    class="w-9 h-9 rounded-full object-cover border border-gray-200"
+                                />
+                                <span v-else class="w-9 h-9 rounded-full bg-gray-200 flex items-center justify-center text-gray-400 text-lg font-bold">
+                                    {{ user.name.charAt(0) }}
+                                </span>
+                                <h3 class="text-lg font-medium text-gray-900">{{ user.name }}</h3>
+                            </div>
                             <span 
                                 :class="{
                                     'bg-red-100 text-red-800': user.status === 'banned',
@@ -103,8 +114,18 @@ onMounted(() => {
                         <p class="text-sm text-gray-500">{{ user.email }}</p>
                         
                         <div class="flex items-center justify-between">
-                            <div class="flex space-x-2">
-                                <p class="text-sm text-gray-800">Role : {{ user.role }}</p>
+                            <div class="flex space-x-2 items-center">
+                                <span 
+                                    :class="{
+                                        'bg-blue-100 text-blue-800': user.role === 'client',
+                                        'bg-purple-100 text-purple-800': user.role === 'designer',
+                                        'bg-orange-100 text-orange-800': user.role === 'contractor',
+                                        'bg-gray-100 text-gray-800': !['client', 'designer', 'contractor'].includes(user.role)
+                                    }"
+                                    class="px-2 py-1 text-xs font-semibold rounded-full"
+                                >
+                                    {{ user.role }}
+                                </span>
                             </div>
                             
                             <div class="flex space-x-2">

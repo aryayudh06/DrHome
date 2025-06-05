@@ -10,7 +10,9 @@ class Design extends Model
         'name',
         'country',
         'specialty',
-        'photo',
-        'description'
+        'description',
+        'photo_path',
+        'preview_path',
+        'file_path',
     ];
 }

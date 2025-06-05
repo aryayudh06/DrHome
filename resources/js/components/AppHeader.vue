@@ -18,7 +18,7 @@ import UserMenuContent from '@/components/UserMenuContent.vue';
 import { getInitials } from '@/composables/useInitials';
 import type { BreadcrumbItem, NavItem } from '@/types';
 import { Link, usePage } from '@inertiajs/vue3';
-import { Blocks, House, LayoutDashboard, Menu, Search, Shield } from 'lucide-vue-next';
+import { Blocks, House, LayoutDashboard, Menu, SendHorizontal, Shield } from 'lucide-vue-next';
 import { computed } from 'vue';
 
 interface Props {
@@ -31,6 +31,15 @@ const props = withDefaults(defineProps<Props>(), {
 
 const page = usePage();
 const auth = computed(() => page.props.auth);
+
+// Fungsi untuk mendapatkan URL avatar
+const avatarUrl = computed(() => {
+  if (!auth.value?.user?.avatar) return null;
+  if (auth.value.user.avatar.includes('storage/')) return `/${auth.value.user.avatar}`;
+  
+  // default
+  return `/storage/${auth.value.user.avatar}`;
+});
 
 const isCurrentRoute = computed(() => (url: string) => page.url === url);
 
@@ -63,6 +72,14 @@ const mainNavItems = computed(() => {
       title: 'Admin',
       href: '/admin',
       icon: Shield,
+    });
+  }
+
+  if (auth.value?.user?.role === 'designer' || auth.value?.user?.role === 'contractor') {
+    items.push({
+      title: 'Requests',
+      href: '/request',
+      icon: SendHorizontal,
     });
   }
 
@@ -169,7 +186,12 @@ const rightNavItems: NavItem[] = [
                         class="relative size-10 ml-4 w-auto rounded-full p-1 focus-within:ring-2 focus-within:ring-primary"
                         >
                         <Avatar class="size-8 overflow-hidden rounded-full">
-                            <AvatarImage v-if="auth.user.avatar" :src="auth.user.avatar" :alt="auth.user.name" />
+                            <AvatarImage 
+                                v-if="avatarUrl" 
+                                :src="avatarUrl" 
+                                :alt="auth.user?.name" 
+                                @error="handleImageError"
+                            />
                             <AvatarFallback class="rounded-lg bg-neutral-200 font-semibold text-black dark:bg-neutral-700 dark:text-white">
                             {{ getInitials(auth.user?.name) }}
                             </AvatarFallback>

@@ -29,15 +29,17 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/design', function () {
             return Inertia::render('admin/NewDesign');
         })->name('newd');
-
-        Route::post('/design', [DesignController::class, 'store'])->name('news');
     });
 
-    Route::get('/add', function () {
-        return Inertia::render('admin/Add');
-    })->name('add');
-
-    Route::patch('/add', [UserController::class, 'update'])->name('upd');
+    Route::prefix('add')->group(function () {
+        Route::get('/contractor', function () {
+            return Inertia::render('admin/AddContractor');
+        });
+        Route::get('/designer', function () {
+            return Inertia::render('admin/AddDesigner');
+        });
+        Route::patch('/contractor', [UserController::class, 'update'])->name('upd');
+    });
 
     Route::get('/ban', function () {
         return Inertia::render('admin/Ban');
