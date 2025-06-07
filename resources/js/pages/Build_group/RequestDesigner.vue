@@ -1,9 +1,14 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { Head } from '@inertiajs/vue3';
 import { usePage } from '@inertiajs/vue3';
 import axios from 'axios';
+
+interface Region {
+    id: string;
+    name: string;
+}
 
 const statuses = [
     { id: 'fill_form', label: 'Fill Form' },
@@ -30,11 +35,40 @@ const success = ref<string|null>(null);
 const page = usePage();
 const designerId = page.props.designerId;
 
+const provinces = ref<Region[]>([]);
+const cities = ref<Region[]>([]);
+const selectedProvince = ref('');
+const selectedCity = ref('');
+
+onMounted(async () => {
+    try {
+        const response = await fetch('https://www.emsifa.com/api-wilayah-indonesia/api/provinces.json');
+        provinces.value = await response.json();
+    } catch (error) {
+        console.error('Error fetching provinces:', error);
+    }
+});
+
+async function handleProvinceChange() {
+    if (!selectedProvince.value) {
+        cities.value = [];
+        selectedCity.value = '';
+        return;
+    }
+
+    try {
+        const response = await fetch(`https://www.emsifa.com/api-wilayah-indonesia/api/regencies/${selectedProvince.value}.json`);
+        cities.value = await response.json();
+    } catch (error) {
+        console.error('Error fetching cities:', error);
+    }
+}
+
 async function submitRequest() {
     error.value = null;
     success.value = null;
 
-    if (!sunOrientation.value || !windOrientation.value || !landSize.value || !landShape.value || !notes.value) {
+    if (!sunOrientation.value || !windOrientation.value || !landSize.value || !landShape.value || !notes.value || !selectedProvince.value || !selectedCity.value) {
         error.value = 'Semua field wajib diisi!';
         return;
     }
@@ -49,6 +83,8 @@ async function submitRequest() {
         formData.append('budget', budget.value ? budget.value : '');
         formData.append('deadline', deadline.value ? deadline.value : '');
         formData.append('notes', notes.value);
+        formData.append('province_id', selectedProvince.value);
+        formData.append('city_id', selectedCity.value);
         if (designReference.value) {
             formData.append('design_reference_path', designReference.value);
         }
@@ -113,6 +149,32 @@ function handleFileChange(e: Event) {
                                         <option value="irregular">Irregular</option>
                                     </select>
                                 </div>
+                                <div class="space-y-1">
+                                    <label class="block text-sm font-medium text-gray-700">Province</label>
+                                    <select
+                                        v-model="selectedProvince"
+                                        @change="handleProvinceChange"
+                                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#AE7A42] focus:border-[#AE7A42] outline-none transition"
+                                    >
+                                        <option value="">Select Province</option>
+                                        <option v-for="province in provinces" :key="province.id" :value="province.id">
+                                            {{ province.name }}
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="space-y-1">
+                                    <label class="block text-sm font-medium text-gray-700">City</label>
+                                    <select
+                                        v-model="selectedCity"
+                                        :disabled="!selectedProvince"
+                                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#AE7A42] focus:border-[#AE7A42] outline-none transition"
+                                    >
+                                        <option value="">Select City</option>
+                                        <option v-for="city in cities" :key="city.id" :value="city.id">
+                                            {{ city.name }}
+                                        </option>
+                                    </select>
+                                </div>
                                 <div class="space-y-1 md:col-span-2">
                                     <label class="block text-sm font-medium text-gray-700">Design Reference (optional)</label>
                                     <input type="file" accept=".jpg,.jpeg,.png,.pdf" @change="handleFileChange"
@@ -147,7 +209,7 @@ function handleFileChange(e: Event) {
                         <div class="space-y-4">
                             <div v-for="(status, index) in statuses" :key="status.id" class="flex items-start">
                                 <div class="flex-shrink-0 relative">
-                                    <div :class="[ 
+                                    <div :class="[
                                         'h-6 w-6 rounded-full flex items-center justify-center border-2',
                                         currentStatus === status.id
                                             ? 'bg-white text-[#AE7A42] border-white'

@@ -194,7 +194,7 @@ function getCurrentUserId() {
                                         </a>
                                     </span>
                                 </div>
-                                
+
                                 <!-- Payment Row -->
                                 <div class="flex items-center gap-4" v-if="request.payment">
                                     <span class="font-semibold w-48">Payment</span>
@@ -208,11 +208,11 @@ function getCurrentUserId() {
                                         {{ request.budget ? 'IDR ' + new Intl.NumberFormat('id-ID').format(request.budget) : '-' }}
                                     </span>
                                 </div>
-                                <div class="flex items-center gap-4" v-if="type === 'contractor'">
+                                <div class="flex items-center gap-4">
                                     <span class="font-semibold w-48">Province</span>
                                     <span class="flex-1 bg-gray-100 rounded-lg px-4 py-2 text-left">{{ request.province }}</span>
                                 </div>
-                                <div class="flex items-center gap-4" v-if="type === 'contractor'">
+                                <div class="flex items-center gap-4">
                                     <span class="font-semibold w-48">City</span>
                                     <span class="flex-1 bg-gray-100 rounded-lg px-4 py-2 text-left">{{ request.city }}</span>
                                 </div>
@@ -235,7 +235,13 @@ function getCurrentUserId() {
                                 <div class="flex items-center gap-4" v-if="type === 'designer' && request.design_reference_path">
                                     <span class="font-semibold w-48">Design Reference</span>
                                     <span class="flex-1">
-                                        <a :href="'/storage/' + request.design_reference_path" target="_blank" class="bg-gray-100 rounded-lg px-4 py-2 text-blue-600 underline block text-left">View File</a>
+                                        <a
+                                            :href="'/storage/' + request.design_reference_path"
+                                            target="_blank"
+                                            class="bg-gray-100 rounded-lg px-4 py-2 text-blue-600 underline block text-left"
+                                        >
+                                            View File
+                                        </a>
                                     </span>
                                 </div>
                                 <div class="flex items-center gap-4">

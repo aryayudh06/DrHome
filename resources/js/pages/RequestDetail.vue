@@ -224,7 +224,7 @@ async function finishConstruction() {
                                         </a>
                                     </span>
                                 </div>
-                                
+
                                 <!-- Payment Row -->
                                 <div class="flex items-center gap-4" v-if="request.payment">
                                     <span class="font-semibold w-48">Payment</span>
@@ -239,11 +239,11 @@ async function finishConstruction() {
                                         {{ request.budget ? 'IDR ' + new Intl.NumberFormat('id-ID').format(request.budget) : '-' }}
                                     </span>
                                 </div>
-                                <div class="flex items-center gap-4" v-if="type === 'contractor'">
+                                <div class="flex items-center gap-4">
                                     <span class="font-semibold w-48">Province</span>
                                     <span class="flex-1 bg-gray-100 rounded-lg px-4 py-2 text-left">{{ request.province }}</span>
                                 </div>
-                                <div class="flex items-center gap-4" v-if="type === 'contractor'">
+                                <div class="flex items-center gap-4">
                                     <span class="font-semibold w-48">City</span>
                                     <span class="flex-1 bg-gray-100 rounded-lg px-4 py-2 text-left">{{ request.city }}</span>
                                 </div>
@@ -309,10 +309,10 @@ async function finishConstruction() {
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
                 <label class="block text-sm font-medium mb-1">Design Name</label>
-                <input 
-                    v-model="purchasedForm.design_name" 
-                    type="text" 
-                    class="w-full px-4 py-2 border rounded-lg bg-gray-100 focus:border-[#AE7A42] focus:ring-[#AE7A42]" 
+                <input
+                    v-model="purchasedForm.design_name"
+                    type="text"
+                    class="w-full px-4 py-2 border rounded-lg bg-gray-100 focus:border-[#AE7A42] focus:ring-[#AE7A42]"
                     placeholder="Modern Scandinavian House..."
                     required
                 >
@@ -320,10 +320,10 @@ async function finishConstruction() {
             </div>
             <div>
                 <label class="block text-sm font-medium mb-1">Design Country</label>
-                <input 
-                    v-model="purchasedForm.design_country" 
-                    type="text" 
-                    class="w-full px-4 py-2 border rounded-lg bg-gray-100 focus:border-[#AE7A42] focus:ring-[#AE7A42]" 
+                <input
+                    v-model="purchasedForm.design_country"
+                    type="text"
+                    class="w-full px-4 py-2 border rounded-lg bg-gray-100 focus:border-[#AE7A42] focus:ring-[#AE7A42]"
                     placeholder="Indonesia, Japan, Scandinavian..."
                     required
                 >
@@ -331,10 +331,10 @@ async function finishConstruction() {
             </div>
             <div>
                 <label class="block text-sm font-medium mb-1">Design Specialty</label>
-                <input 
-                    v-model="purchasedForm.design_specialty" 
-                    type="text" 
-                    class="w-full px-4 py-2 border rounded-lg bg-gray-100 focus:border-[#AE7A42] focus:ring-[#AE7A42]" 
+                <input
+                    v-model="purchasedForm.design_specialty"
+                    type="text"
+                    class="w-full px-4 py-2 border rounded-lg bg-gray-100 focus:border-[#AE7A42] focus:ring-[#AE7A42]"
                     placeholder="Masukkan specialty di sini..."
                     required
                 >
@@ -342,7 +342,7 @@ async function finishConstruction() {
             </div>
             <div>
     <label class="block text-sm font-medium mb-1">Design File (PDF/JPG/PNG, max 16MB)</label>
-    <input 
+    <input
         type="file"
         accept=".pdf,.jpg,.jpeg,.png"
         @change="handleFileChange"
@@ -353,12 +353,12 @@ async function finishConstruction() {
 </div>
             <div>
                 <label class="block text-sm font-medium mb-1">Price</label>
-                <input 
-                    v-model="purchasedForm.price" 
-                    type="number" 
-                    min="0" 
-                    step="0.01" 
-                    class="w-full px-4 py-2 border rounded-lg bg-gray-100 focus:border-[#AE7A42] focus:ring-[#AE7A42]" 
+                <input
+                    v-model="purchasedForm.price"
+                    type="number"
+                    min="0"
+                    step="0.01"
+                    class="w-full px-4 py-2 border rounded-lg bg-gray-100 focus:border-[#AE7A42] focus:ring-[#AE7A42]"
                     placeholder="Masukkan angka di sini..."
                     required
                 >

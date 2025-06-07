@@ -37,7 +37,7 @@ function handleFileChange(e: Event) {
 
 async function sendMessage() {
     if (!message.value.trim() && !file.value) return;
-    
+
     sending.value = true;
     const formData = new FormData();
     formData.append('recipient_id', props.user2.id.toString());
