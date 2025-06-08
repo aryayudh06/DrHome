@@ -1,15 +1,8 @@
 services:
     - type: web
       name: drhome
-      env: php
-      buildCommand: |
-          composer install --no-dev --optimize-autoloader
-          npm install
-          npm run build
-          php artisan key:generate
-          php artisan migrate --force
-          php artisan storage:link
-      startCommand: vendor/bin/heroku-php-apache2 public/
+      env: docker
+      dockerfilePath: ./Dockerfile
       envVars:
           - key: APP_ENV
             value: production
