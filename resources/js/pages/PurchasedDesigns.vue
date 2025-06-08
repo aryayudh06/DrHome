@@ -44,7 +44,7 @@ onMounted(() => {
                     No purchased designs found
                 </div>
                 <div v-else class="flex flex-col gap-4">
-                    <p class="text-[16px] text-gray-800">* Anda hanya dapat menambahkan design di sini dengan membeli dari designer atau membeli dari halaman Design. View File hanya tersedia saat Anda melakukan request ke designer / contractor. Khusus untuk design yang sudah disediakan Dr.Home, dapat dilihat filenya pada halaman Design.</p>
+                    <p class="text-[16px] text-gray-800">* Anda hanya dapat menambahkan design di sini dengan membeli dari designer atau membeli dari halaman Design. View File hanya tersedia saat Anda melakukan request ke designer / contractor.</p>
                     <div
                         v-for="item in purchased"
                         :key="item.id"
@@ -63,8 +63,6 @@ onMounted(() => {
                                 <span>Country: <b>{{ item.design_country }}</b></span>
                                 <span>Specialty: <b>{{ item.design_specialty }}</b></span>
                                 <span>Price: <b>IDR {{ new Intl.NumberFormat('id-ID').format(item.price) }}</b></span>
-                                <span v-if="item.province">Province: <b>{{ item.province }}</b></span>
-                                <span v-if="item.city">City: <b>{{ item.city }}</b></span>
                             </div>
                         </div>
                     </div>

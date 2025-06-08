@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -16,8 +15,6 @@ class PurchasedDesign extends Model
         'design_name',
         'design_country',
         'design_specialty',
-        'province',
-        'city',
         'design_path',
         'price'
     ];
