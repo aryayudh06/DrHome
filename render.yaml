@@ -1,0 +1,33 @@
+services:
+    - type: web
+      name: drhome
+      env: php
+      buildCommand: |
+          composer install --no-dev --optimize-autoloader
+          npm install
+          npm run build
+          php artisan key:generate
+          php artisan migrate --force
+          php artisan storage:link
+      startCommand: vendor/bin/heroku-php-apache2 public/
+      envVars:
+          - key: APP_ENV
+            value: production
+          - key: APP_DEBUG
+            value: false
+          - key: APP_KEY
+            generateValue: true
+          - key: APP_URL
+            sync: false
+          - key: DB_CONNECTION
+            value: sqlite
+          - key: CACHE_DRIVER
+            value: file
+          - key: SESSION_DRIVER
+            value: file
+          - key: QUEUE_CONNECTION
+            value: sync
+          - key: LOG_CHANNEL
+            value: stderr
+          - key: LOG_LEVEL
+            value: debug
