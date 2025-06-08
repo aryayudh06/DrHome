@@ -45,7 +45,7 @@ onMounted(async () => {
         // Ambil data provinsi
         const provinceResponse = await fetch('https://www.emsifa.com/api-wilayah-indonesia/api/provinces.json');
         provinces.value = await provinceResponse.json();
-        
+
         // Ambil data purchased designs
         const res = await axios.get('/api/user/purchased-designs');
         purchasedDesigns.value = res.data.designs;
@@ -83,10 +83,14 @@ async function submitRequest() {
 
     loading.value = true;
     try {
+        // Get province and city names from the selected IDs
+        const selectedProvinceObj = provinces.value.find(p => p.id === selectedProvince.value);
+        const selectedCityObj = cities.value.find(c => c.id === selectedCity.value);
+
         await axios.post(`/api/contractors/${contractorId}/request`, {
             purchased_design_id: selectedDesign.value,
-            province_id: selectedProvince.value, // Ubah dari province ke province_id
-            city_id: selectedCity.value, // Ubah dari city ke city_id
+            province: selectedProvinceObj?.name || '',
+            city: selectedCityObj?.name || '',
             land_size: landSize.value,
             land_shape: landShape.value,
             budget: budget.value ? parseFloat(budget.value) : null,
@@ -188,7 +192,7 @@ async function submitRequest() {
                                     class="w-full px-4 py-4 mt-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#AE7A42] focus:border-[#AE7A42] outline-none transition"
                                     required
                                     ></textarea>
-                                        
+
                                 </div>
                             </div>
                         </div>
@@ -227,7 +231,7 @@ async function submitRequest() {
                         </div>
                     </section>
                 </section>
-                
+
                 <!-- Status Section (Mobile) -->
                 <section class="status-section bg-[#AE7A42] rounded-2xl shadow-md p-6 block lg:hidden">
                     <h2 class="text-2xl font-bold text-white border-b border-[#fff7ed]/30 pb-3 mb-6">Project Status</h2>
