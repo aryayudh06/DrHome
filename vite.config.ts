@@ -28,4 +28,14 @@ export default defineConfig({
             'ziggy-js': resolve(__dirname, 'vendor/tightenco/ziggy'),
         },
     },
+    build: {
+        outDir: 'public',
+        assetsDir: 'assets',
+        manifest: true,
+        rollupOptions: {
+            output: {
+                manualChunks: undefined
+            }
+        }
+    }
 });
