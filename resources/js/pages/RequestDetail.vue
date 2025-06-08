@@ -368,7 +368,7 @@ async function finishConstruction() {
                     placeholder="Masukkan angka di sini..."
                     required
                 >
-                <p class="text-xs text-gray-500 mt-1">Harga dalam mata uang lokal (tanpa titik/koma)</p>
+                <p class="text-xs text-gray-500 mt-1">Harga dalam Rupiah (tanpa titik/koma)</p>
             </div>
         </div>
         <div v-if="purchasedError" class="text-red-600 mt-2">{{ purchasedError }}</div>
