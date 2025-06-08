@@ -111,7 +111,9 @@ const purchasedForm = ref({
     design_country: '',
     design_specialty: '',
     design_path: null, // now a File object
-    price: ''
+    price: '',
+    province: '',
+    city: ''
 });
 
 function handleFileChange(e: Event) {
@@ -138,6 +140,8 @@ async function submitPurchasedDesign() {
         formData.append('design_specialty', purchasedForm.value.design_specialty);
         formData.append('design_path', purchasedForm.value.design_path); // file
         formData.append('price', purchasedForm.value.price);
+        formData.append('province', props.request.province);
+        formData.append('city', props.request.city);
 
         await axios.post('/purchased-designs/from-request-designer', formData, {
             headers: { 'Content-Type': 'multipart/form-data' }
@@ -149,7 +153,9 @@ async function submitPurchasedDesign() {
             design_country: '',
             design_specialty: '',
             design_path: null,
-            price: ''
+            price: '',
+            province: '',
+            city: ''
         };
     } catch (e: any) {
         purchasedError.value = e.response?.data?.message || 'Gagal menyimpan purchased design';

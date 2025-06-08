@@ -63,6 +63,8 @@ onMounted(() => {
                                 <span>Country: <b>{{ item.design_country }}</b></span>
                                 <span>Specialty: <b>{{ item.design_specialty }}</b></span>
                                 <span>Price: <b>IDR {{ new Intl.NumberFormat('id-ID').format(item.price) }}</b></span>
+                                <span v-if="item.province">Province: <b>{{ item.province }}</b></span>
+                                <span v-if="item.city">City: <b>{{ item.city }}</b></span>
                             </div>
                         </div>
                     </div>

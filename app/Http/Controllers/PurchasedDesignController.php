@@ -125,7 +125,7 @@ class PurchasedDesignController extends Controller
     {
         $userId = Auth::id();
         $designs = PurchasedDesign::where('user_id', $userId)
-            ->select('id', 'design_id', 'design_name', 'design_country', 'design_specialty', 'design_path')
+            ->select('id', 'design_id', 'design_name', 'design_country', 'design_specialty', 'design_path', 'province', 'city')
             ->get();
 
         return response()->json([
@@ -142,6 +142,8 @@ class PurchasedDesignController extends Controller
             'design_specialty' => 'required|string|max:50',
             'design_path' => 'required|file|mimes:pdf,jpg,jpeg,png|max:16384', // 16MB
             'price' => 'required|numeric|min:0.01',
+            'province' => 'required|string|max:100',
+            'city' => 'required|string|max:100',
         ]);
 
         $reqDesigner = RequestDesigner::findOrFail($request->request_designer_id);
@@ -156,6 +158,8 @@ class PurchasedDesignController extends Controller
             'design_name' => $request->design_name,
             'design_country' => $request->design_country,
             'design_specialty' => $request->design_specialty,
+            'province' => $request->province,
+            'city' => $request->city,
             'design_path' => $path,
             'price' => $request->price,
         ]);
