@@ -311,7 +311,7 @@ async function finishConstruction() {
     class="w-full mb-2"
 >
     <div class="bg-white rounded-2xl p-6 mt-6">
-        <h3 class="text-2xl font-bold mb-6 text-[#AE7A42]">Input Design to Client</h3>
+        <h3 class="text-2xl font-bold mb-6 text-[#AE7A42]">Input Design ke Client</h3>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
                 <label class="block text-sm font-medium mb-1">Design Name</label>
@@ -379,7 +379,7 @@ async function finishConstruction() {
             class="mt-4 px-6 py-3 bg-[#AE7A42] hover:bg-[#8c5e30] text-white font-medium rounded-lg shadow transition"
         >
             <span v-if="purchasedLoading">Saving...</span>
-            <span v-else>Simpan Purchased Design</span>
+            <span v-else>Simpan Design untuk Client</span>
         </button>
     </div>
 </div>
