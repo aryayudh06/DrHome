@@ -17,8 +17,8 @@ class RequestDesignerController extends Controller
             'land_shape' => 'required|string|max:50',
             'sun_orientation' => 'required|string|max:100',
             'wind_orientation' => 'required|string|max:100',
-            'province_id' => 'required|string|max:10',
-            'city_id' => 'required|string|max:10',
+            'province' => 'required|string',
+            'city' => 'required|string',
             'budget' => 'nullable|numeric',
             'deadline' => 'nullable|date',
             'notes' => 'required|string',
@@ -31,13 +31,6 @@ class RequestDesignerController extends Controller
             $designReferencePath = $file->store('design_references', 'public');
         }
 
-        // Get province and city names
-        $provinceResponse = Http::get("https://www.emsifa.com/api-wilayah-indonesia/api/province/{$validated['province_id']}.json");
-        $cityResponse = Http::get("https://www.emsifa.com/api-wilayah-indonesia/api/regency/{$validated['city_id']}.json");
-
-        $provinceName = $provinceResponse->successful() ? $provinceResponse->json()['name'] : '';
-        $cityName = $cityResponse->successful() ? $cityResponse->json()['name'] : '';
-
         $designerRequest = RequestDesigner::create([
             'client_id' => Auth::id(),
             'designer_id' => $designerId,
@@ -45,8 +38,8 @@ class RequestDesignerController extends Controller
             'land_shape' => $validated['land_shape'],
             'sun_orientation' => $validated['sun_orientation'],
             'wind_orientation' => $validated['wind_orientation'],
-            'province' => $provinceName,
-            'city' => $cityName,
+            'province' => $validated['province'],
+            'city' => $validated['city'],
             'budget' => $validated['budget'] ?? null,
             'deadline' => $validated['deadline'] ?? null,
             'notes' => $validated['notes'],

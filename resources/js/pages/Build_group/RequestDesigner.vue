@@ -42,8 +42,9 @@ const selectedCity = ref('');
 
 onMounted(async () => {
     try {
-        const response = await fetch('https://www.emsifa.com/api-wilayah-indonesia/api/provinces.json');
-        provinces.value = await response.json();
+        // Ambil data provinsi
+        const provinceResponse = await fetch('https://www.emsifa.com/api-wilayah-indonesia/api/provinces.json');
+        provinces.value = await provinceResponse.json();
     } catch (error) {
         console.error('Error fetching provinces:', error);
     }
@@ -68,33 +69,37 @@ async function submitRequest() {
     error.value = null;
     success.value = null;
 
-    if (!sunOrientation.value || !windOrientation.value || !landSize.value || !landShape.value || !notes.value || !selectedProvince.value || !selectedCity.value) {
+    if (!sunOrientation.value || !windOrientation.value || !landSize.value || 
+        !landShape.value || !notes.value || 
+        !selectedProvince.value || !selectedCity.value) {
         error.value = 'Semua field wajib diisi!';
         return;
     }
 
     loading.value = true;
     try {
-        const formData = new FormData();
-        formData.append('sun_orientation', sunOrientation.value);
-        formData.append('wind_orientation', windOrientation.value);
-        formData.append('land_size', landSize.value);
-        formData.append('land_shape', landShape.value);
-        formData.append('budget', budget.value ? budget.value : '');
-        formData.append('deadline', deadline.value ? deadline.value : '');
-        formData.append('notes', notes.value);
-        formData.append('province_id', selectedProvince.value);
-        formData.append('city_id', selectedCity.value);
-        if (designReference.value) {
-            formData.append('design_reference_path', designReference.value);
-        }
+        const selectedProvinceObj = provinces.value.find(p => p.id === selectedProvince.value);
+        const selectedCityObj = cities.value.find(c => c.id === selectedCity.value);
 
-        await axios.post(`/api/designers/${designerId}/request`, formData, {
-            headers: { 'Content-Type': 'multipart/form-data' }
+        await axios.post(`/api/designers/${designerId}/request`, {
+            purchased_design_id: null,
+            sun_orientation: sunOrientation.value,
+            wind_orientation: windOrientation.value,
+            province: selectedProvinceObj?.name || '',
+            city: selectedCityObj?.name || '',
+            land_size: landSize.value,
+            land_shape: landShape.value,
+            budget: budget.value ? parseFloat(budget.value) : null,
+            deadline: deadline.value ? deadline.value : null,
+            notes: notes.value,
         });
+        
         window.location.href = '/myrequest';
     } catch (err: any) {
-        error.value = err.response?.data?.message || 'Gagal mengirim request.';
+        console.error('Full error:', err);
+        error.value = err.response?.data?.message || 
+                     err.response?.data?.error || 
+                     'Gagal mengirim request. Silakan coba lagi.';
     } finally {
         loading.value = false;
     }
