@@ -1,8 +1,8 @@
 [build]
 builder = "nixpacks"
-buildCommand = "echo 'APP_ENV=production\nAPP_DEBUG=false\nAPP_KEY=${APP_KEY}\nAPP_URL=${APP_URL}\nLOG_CHANNEL=stderr\nLOG_LEVEL=debug\nDB_CONNECTION=mysql\nDB_HOST=${MYSQL_HOST}\nDB_PORT=${MYSQL_PORT}\nDB_DATABASE=${MYSQL_DATABASE}\nDB_USERNAME=${MYSQL_USERNAME}\nDB_PASSWORD=${MYSQL_PASSWORD}\nBROADCAST_DRIVER=log\nCACHE_DRIVER=file\nFILESYSTEM_DISK=local\nQUEUE_CONNECTION=sync\nSESSION_DRIVER=file\nSESSION_LIFETIME=120' > .env && composer install --no-dev --optimize-autoloader && npm install && npm run build"
+buildCommand = "composer install --no-dev --optimize-autoloader && npm install && npm run build"
 
 [deploy]
-startCommand = "php artisan migrate --force && php artisan serve --host=0.0.0.0 --port=$PORT"
+startCommand = "php artisan migrate --force && php artisan storage:link && php artisan serve --host=0.0.0.0 --port=$PORT"
 healthcheckPath = "/"
 healthcheckTimeout = 100
