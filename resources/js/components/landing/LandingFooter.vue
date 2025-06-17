@@ -15,16 +15,26 @@
                 <div class="flex-[1.2]">
                     <h3 class="mb-4 text-xl font-semibold">Contact Us</h3>
                     <div class="space-y-2">
+
+                        <!-- Email -->
                         <p>loremipsum@gmail.com</p>
+
+                        <!-- Phone Number -->
                         <p>082313131323223</p>
+                        
+                        <!-- Address -->
                         <p>Malang, Candi Mendut no 29B, Kav 4-8</p>
                     </div>
                 </div>
 
                 <!-- Social Links Section -->
                 <div class="flex-1">
+
+                    <!-- Title -->
                     <h3 class="mb-4 text-xl font-semibold">Look at our Latest News!</h3>
                     <div class="flex space-x-4">
+
+                        <!-- Social Media Icons Instagram -->
                         <a href="#" class="hover:text-white/80">
                             <span class="sr-only">Instagram</span>
                             <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
@@ -33,6 +43,8 @@
                                 />
                             </svg>
                         </a>
+
+                        <!-- TikTok -->
                         <a href="#" class="hover:text-white/80">
                             <span class="sr-only">TikTok</span>
                             <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
@@ -41,6 +53,8 @@
                                 />
                             </svg>
                         </a>
+
+                        <!-- X (Twitter) -->
                         <a href="#" class="hover:text-white/80">
                             <span class="sr-only">X (Twitter)</span>
                             <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
@@ -49,6 +63,8 @@
                                 />
                             </svg>
                         </a>
+
+                        <!-- Facebook -->
                         <a href="#" class="hover:text-white/80">
                             <span class="sr-only">Facebook</span>
                             <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
@@ -57,6 +73,7 @@
                                 />
                             </svg>
                         </a>
+
                     </div>
                 </div>
             </div>
