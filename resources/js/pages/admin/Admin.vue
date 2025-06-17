@@ -214,13 +214,16 @@ onMounted(fetchMails);
                   />
                   <div v-else class="text-center">
                     <p class="text-gray-600 mb-2">File portfolio ({{ selectedMail.portfolio.mime_type }})</p>
+                    
                     <a 
-                      :href="`data:${selectedMail.portfolio.mime_type};base64,${selectedMail.portfolio.data}`"
-                      download="portfolio"
+                      :href="selectedMail.portfolio.url"
+                      target="_blank"
+                      rel="noopener noreferrer"
                       class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-[#AE7A42] hover:bg-[#9c6d3a] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#AE7A42]"
                     >
-                      Download Portfolio
+                      View File
                     </a>
+
                   </div>
                 </div>
               </div>
