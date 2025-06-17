@@ -206,12 +206,14 @@ onMounted(fetchMails);
               <div class="px-4 py-5 sm:p-6">
                 <h3 class="text-lg font-medium text-gray-900">Portfolio</h3>
                 <div class="mt-4 bg-gray-100 p-4 rounded-md">
+
                   <img 
                     v-if="selectedMail.portfolio.mime_type.startsWith('image/')"
                     :src="`data:${selectedMail.portfolio.mime_type};base64,${selectedMail.portfolio.data}`"
                     alt="Portfolio preview"
                     class="max-w-full h-auto max-h-60 object-contain mx-auto rounded"
                   />
+
                   <div v-else class="text-center">
                     <p class="text-gray-600 mb-2">File portfolio ({{ selectedMail.portfolio.mime_type }})</p>
                     
@@ -249,6 +251,7 @@ onMounted(fetchMails);
               <div class="px-4 py-5 sm:p-6">
                 <h3 class="text-lg font-medium text-gray-900">Balas Pesan</h3>
                 <form @submit.prevent="submitReply" class="mt-4 space-y-4">
+
                   <div>
                     <textarea
                       v-model="replyForm.reply"
@@ -258,6 +261,7 @@ onMounted(fetchMails);
                     ></textarea>
                     <p v-if="submitError" class="mt-2 text-sm text-red-600">{{ submitError }}</p>
                   </div>
+
                   <div class="flex justify-end space-x-3">
                     <button
                       type="button"
@@ -278,6 +282,7 @@ onMounted(fetchMails);
                       <span v-else>Menyimpan...</span>
                     </button>
                   </div>
+                  
                 </form>
               </div>
             </div>
