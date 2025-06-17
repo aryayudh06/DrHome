@@ -2,7 +2,7 @@
 import AppLayout from '@/layouts/app/AppSidebarLayout.vue';
 import { type BreadcrumbItem } from '@/types';
 import { Head, useForm } from '@inertiajs/vue3';
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, onUnmounted } from 'vue';
 import axios from 'axios';
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -18,17 +18,21 @@ const error = ref<string | null>(null);
 const showModal = ref(false);
 const selectedMail = ref<any>(null);
 const submitError = ref<string | null>(null);
+let pollingInterval: number | null = null;
 
 // Gunakan Inertia Form khusus untuk reply
 const replyForm = useForm({
   reply: '',
 });
 
-// Fetch mails list dengan axios (agar tetap bekerja)
+// Fetch mails list dengan axios
 const fetchMails = async () => {
   try {
     const response = await axios.get('/api/admins');
-    mails.value = response.data.data || [];
+    // Only update if there are changes
+    if (JSON.stringify(response.data.data) !== JSON.stringify(mails.value)) {
+      mails.value = response.data.data || [];
+    }
   } catch (err) {
     console.error('Error:', err);
     error.value = 'Gagal memuat mails';
@@ -103,7 +107,18 @@ const submitReply = () => {
   });
 };
 
-onMounted(fetchMails);
+// Start polling when component mounts
+onMounted(() => {
+  fetchMails();
+  pollingInterval = window.setInterval(fetchMails, 2000);
+});
+
+// Clean up interval when component unmounts
+onUnmounted(() => {
+  if (pollingInterval) {
+    clearInterval(pollingInterval);
+  }
+});
 </script>
 
 <template>
@@ -206,17 +221,14 @@ onMounted(fetchMails);
               <div class="px-4 py-5 sm:p-6">
                 <h3 class="text-lg font-medium text-gray-900">Portfolio</h3>
                 <div class="mt-4 bg-gray-100 p-4 rounded-md">
-
                   <img 
                     v-if="selectedMail.portfolio.mime_type.startsWith('image/')"
                     :src="`data:${selectedMail.portfolio.mime_type};base64,${selectedMail.portfolio.data}`"
                     alt="Portfolio preview"
                     class="max-w-full h-auto max-h-60 object-contain mx-auto rounded"
                   />
-
                   <div v-else class="text-center">
                     <p class="text-gray-600 mb-2">File portfolio ({{ selectedMail.portfolio.mime_type }})</p>
-                    
                     <a 
                       :href="selectedMail.portfolio.url"
                       target="_blank"
@@ -225,7 +237,6 @@ onMounted(fetchMails);
                     >
                       View File
                     </a>
-
                   </div>
                 </div>
               </div>
@@ -251,17 +262,15 @@ onMounted(fetchMails);
               <div class="px-4 py-5 sm:p-6">
                 <h3 class="text-lg font-medium text-gray-900">Balas Pesan</h3>
                 <form @submit.prevent="submitReply" class="mt-4 space-y-4">
-
                   <div>
                     <textarea
                       v-model="replyForm.reply"
-                      class="w-full border border-gray-300 rounded-md shadow-sm focus:border-[#AE7A42] focus:ring-[#AE7A42] min-h-[150px] p-3"
+                      class="w-full px-4 py-4 mt-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#AE7A42] focus:border-[#AE7A42] outline-none transition min-h-[150px] p-3"
                       placeholder="Tulis balasan Anda..."
                       :disabled="replyForm.processing"
                     ></textarea>
                     <p v-if="submitError" class="mt-2 text-sm text-red-600">{{ submitError }}</p>
                   </div>
-
                   <div class="flex justify-end space-x-3">
                     <button
                       type="button"
@@ -282,7 +291,6 @@ onMounted(fetchMails);
                       <span v-else>Menyimpan...</span>
                     </button>
                   </div>
-                  
                 </form>
               </div>
             </div>
