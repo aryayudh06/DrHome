@@ -72,6 +72,40 @@ public function show($id)
     ]);
 }
 
+    public function showApi($id)
+    {
+        // Cek di request_contractors
+        $request = RequestContractor::with([
+                'client:id,name,avatar',
+                'contractor:id,name,avatar',
+                'purchasedDesign'
+            ])->find($id);
+
+        if ($request) {
+            $type = 'contractor';
+        } else {
+            // Cek di request_designers
+            $request = RequestDesigner::with([
+                    'client:id,name,avatar',
+                    'designer:id,name,avatar',
+                    'purchasedDesign'
+                ])->find($id);
+
+            if ($request) {
+                $type = 'designer';
+            } else {
+                return response()->json([
+                    'message' => 'Request not found'
+                ], 404);
+            }
+        }
+
+        return response()->json([
+            'request' => $request,
+            'type' => $type,
+        ]);
+    }
+
 public function updateStatus(Request $request, $id)
 {
     $request->validate([

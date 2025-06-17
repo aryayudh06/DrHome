@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import AppLayout from '@/layouts/AppLayout.vue';
 import { Head, Link, router } from '@inertiajs/vue3';
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted, onUnmounted } from 'vue';
 import axios from 'axios';
 import { MessageSquareText } from 'lucide-vue-next';
 
@@ -18,6 +18,10 @@ const props = defineProps({
 
 const loading = ref(false);
 const error = ref<string|null>(null);
+const requestData = ref(props.request); // Gunakan ref untuk data request yang bisa diupdate
+
+// Polling interval
+let pollingInterval: number | null = null;
 
 const statuses = computed(() => {
     if (props.type === 'contractor') {
@@ -37,7 +41,7 @@ const statuses = computed(() => {
     }
 });
 
-const currentStatus = computed(() => props.request.progress);
+const currentStatus = computed(() => requestData.value.progress);
 
 function getStatusLabel(request: any, type: string) {
     if (type === 'contractor') {
@@ -81,14 +85,14 @@ function getStatusClass(request: any, type: string) {
 }
 
 function getClient() {
-    return props.request.client;
+    return requestData.value.client;
 }
 
 function getTargetUser() {
     if (props.type === 'contractor') {
-        return props.request.contractor;
+        return requestData.value.contractor;
     } else if (props.type === 'designer') {
-        return props.request.designer;
+        return requestData.value.designer;
     }
     return null;
 }
@@ -97,8 +101,9 @@ async function updateStatus(status: string) {
     loading.value = true;
     error.value = null;
     try {
-        await axios.post(`/request/${props.request.id}/status`, { status, type: props.type });
-        window.location.reload();
+        await axios.post(`/request/${requestData.value.id}/status`, { status, type: props.type });
+        // Panggil fetchData untuk mendapatkan data terbaru tanpa refresh
+        await fetchData();
     } catch (e: any) {
         error.value = e.response?.data?.message || 'Failed to update status';
     } finally {
@@ -134,19 +139,20 @@ async function submitPurchasedDesign() {
     purchasedSuccess.value = null;
     try {
         const formData = new FormData();
-        formData.append('request_designer_id', props.request.id);
+        formData.append('request_designer_id', requestData.value.id);
         formData.append('design_name', purchasedForm.value.design_name);
         formData.append('design_country', purchasedForm.value.design_country);
         formData.append('design_specialty', purchasedForm.value.design_specialty);
         formData.append('design_path', purchasedForm.value.design_path); // file
         formData.append('price', purchasedForm.value.price);
-        formData.append('province', props.request.province);
-        formData.append('city', props.request.city);
+        formData.append('province', requestData.value.province);
+        formData.append('city', requestData.value.city);
 
         await axios.post('/purchased-designs/from-request-designer', formData, {
             headers: { 'Content-Type': 'multipart/form-data' }
         });
-        window.location.reload();
+        // Panggil fetchData untuk mendapatkan data terbaru tanpa refresh
+        await fetchData();
         purchasedSuccess.value = 'Purchased design berhasil disimpan!';
         purchasedForm.value = {
             design_name: '',
@@ -168,16 +174,40 @@ async function finishConstruction() {
     loading.value = true;
     error.value = null;
     try {
-        await axios.post(`/request/${props.request.id}/finish-construction`, {
+        await axios.post(`/request/${requestData.value.id}/finish-construction`, {
             type: props.type
         });
-        window.location.reload();
+        // Panggil fetchData untuk mendapatkan data terbaru tanpa refresh
+        await fetchData();
     } catch (e: any) {
         error.value = e.response?.data?.message || 'Failed to finish construction';
     } finally {
         loading.value = false;
     }
 }
+
+// Fungsi untuk mengambil data terbaru
+async function fetchData() {
+    try {
+        const response = await axios.get(`/api/request/${requestData.value.id}`);
+        requestData.value = response.data.request;
+    } catch (error) {
+        console.error('Error fetching updated data:', error);
+    }
+}
+
+// Setup polling ketika komponen dimount
+onMounted(() => {
+    // Mulai polling setiap 2 detik
+    pollingInterval = window.setInterval(fetchData, 2000);
+});
+
+// Bersihkan interval ketika komponen di-unmount
+onUnmounted(() => {
+    if (pollingInterval) {
+        clearInterval(pollingInterval);
+    }
+});
 </script>
 
 <template>
@@ -202,14 +232,14 @@ async function finishConstruction() {
                             </span>
                             <span
                                 class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full"
-                                :class="getStatusClass(request, type)"
+                                :class="getStatusClass(requestData, type)"
                             >
-                                {{ getStatusLabel(request, type) }}
+                                {{ getStatusLabel(requestData, type) }}
                             </span>
                         </div>
                         <!-- Pesan progress -->
                         <div
-                            v-if="request.progress === 'design_start' || request.progress === 'construction_start'"
+                            v-if="requestData.progress === 'design_start' || requestData.progress === 'construction_start'"
                             class="mb-4 mt-2 text-[17px] text-[#AE7A42] bg-[#FFF7ED] border border-[#AE7A42] rounded-lg px-4 py-3 w-full"
                         >
                             <span class="font-semibold">*</span>
@@ -218,11 +248,11 @@ async function finishConstruction() {
                         <!-- Detail Table -->
                         <div class="w-full mb-4 mt-8">
                             <div class="flex flex-col gap-6 text-xl">
-                                <div v-if="request.purchased_design && request.purchased_design.design_path" class="flex items-center gap-4">
+                                <div v-if="requestData.purchased_design && requestData.purchased_design.design_path" class="flex items-center gap-4">
                                     <span class="font-semibold w-48">Design File</span>
                                     <span class="flex-1">
                                         <a
-                                            :href="'/storage/' + request.purchased_design.design_path"
+                                            :href="'/storage/' + requestData.purchased_design.design_path"
                                             target="_blank"
                                             class="bg-gray-100 rounded-lg px-4 py-2 text-blue-600 underline block text-left"
                                         >
@@ -232,58 +262,58 @@ async function finishConstruction() {
                                 </div>
 
                                 <!-- Payment Row -->
-                                <div class="flex items-center gap-4" v-if="request.payment">
+                                <div class="flex items-center gap-4" v-if="requestData.payment">
                                     <span class="font-semibold w-48">Payment</span>
                                     <span class="flex-1 bg-gray-100 rounded-lg px-4 py-2 font-bold text-left">
-                                        {{ 'IDR ' + new Intl.NumberFormat('id-ID').format(request.payment) }}
+                                        {{ 'IDR ' + new Intl.NumberFormat('id-ID').format(requestData.payment) }}
                                     </span>
                                 </div>
 
                                 <div class="flex items-center gap-4">
                                     <span class="font-semibold w-48">Budget</span>
                                     <span class="flex-1 bg-gray-100 rounded-lg px-4 py-2 font-bold text-gray-800 text-2xl text-left">
-                                        {{ request.budget ? 'IDR ' + new Intl.NumberFormat('id-ID').format(request.budget) : '-' }}
+                                        {{ requestData.budget ? 'IDR ' + new Intl.NumberFormat('id-ID').format(requestData.budget) : '-' }}
                                     </span>
                                 </div>
                                 <div class="flex items-center gap-4">
                                     <span class="font-semibold w-48">Province</span>
-                                    <span class="flex-1 bg-gray-100 rounded-lg px-4 py-2 text-left">{{ request.province }}</span>
+                                    <span class="flex-1 bg-gray-100 rounded-lg px-4 py-2 text-left">{{ requestData.province }}</span>
                                 </div>
                                 <div class="flex items-center gap-4">
                                     <span class="font-semibold w-48">City</span>
-                                    <span class="flex-1 bg-gray-100 rounded-lg px-4 py-2 text-left">{{ request.city }}</span>
+                                    <span class="flex-1 bg-gray-100 rounded-lg px-4 py-2 text-left">{{ requestData.city }}</span>
                                 </div>
                                 <div class="flex items-center gap-4">
                                     <span class="font-semibold w-48">Land Size</span>
-                                    <span class="flex-1 bg-gray-100 rounded-lg px-4 py-2 text-left">{{ request.land_size }} m²</span>
+                                    <span class="flex-1 bg-gray-100 rounded-lg px-4 py-2 text-left">{{ requestData.land_size }} m²</span>
                                 </div>
                                 <div class="flex items-center gap-4">
                                     <span class="font-semibold w-48">Land Shape</span>
-                                    <span class="flex-1 bg-gray-100 rounded-lg px-4 py-2 text-left">{{ request.land_shape }}</span>
+                                    <span class="flex-1 bg-gray-100 rounded-lg px-4 py-2 text-left">{{ requestData.land_shape }}</span>
                                 </div>
                                 <div class="flex items-center gap-4" v-if="type === 'designer'">
                                     <span class="font-semibold w-48">Sun Orientation</span>
-                                    <span class="flex-1 bg-gray-100 rounded-lg px-4 py-2 text-left">{{ request.sun_orientation }}</span>
+                                    <span class="flex-1 bg-gray-100 rounded-lg px-4 py-2 text-left">{{ requestData.sun_orientation }}</span>
                                 </div>
                                 <div class="flex items-center gap-4" v-if="type === 'designer'">
                                     <span class="font-semibold w-48">Wind Orientation</span>
-                                    <span class="flex-1 bg-gray-100 rounded-lg px-4 py-2 text-left">{{ request.wind_orientation }}</span>
+                                    <span class="flex-1 bg-gray-100 rounded-lg px-4 py-2 text-left">{{ requestData.wind_orientation }}</span>
                                 </div>
-                                <div class="flex items-center gap-4" v-if="type === 'designer' && request.design_reference_path">
+                                <div class="flex items-center gap-4" v-if="type === 'designer' && requestData.design_reference_path">
                                     <span class="font-semibold w-48">Design Reference</span>
                                     <span class="flex-1">
-                                        <a :href="'/storage/' + request.design_reference_path" target="_blank" class="bg-gray-100 rounded-lg px-4 py-2 text-blue-600 underline block text-left">View File</a>
+                                        <a :href="'/storage/' + requestData.design_reference_path" target="_blank" class="bg-gray-100 rounded-lg px-4 py-2 text-blue-600 underline block text-left">View File</a>
                                     </span>
                                 </div>
                                 <div class="flex items-center gap-4">
                                     <span class="font-semibold w-48">Deadline</span>
                                     <span class="flex-1 bg-gray-100 rounded-lg px-4 py-2 text-left">
-                                    {{ request.deadline ? new Date(request.deadline).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' }) : '-' }}
+                                    {{ requestData.deadline ? new Date(requestData.deadline).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' }) : '-' }}
                                     </span>
                                 </div>
                                 <div class="flex items-center gap-4">
                                     <span class="font-semibold w-48">Notes</span>
-                                    <span class="flex-1 bg-gray-100 rounded-lg px-4 py-2 text-left">{{ request.notes || '-' }}</span>
+                                    <span class="flex-1 bg-gray-100 rounded-lg px-4 py-2 text-left">{{ requestData.notes || '-' }}</span>
                                 </div>
                             </div>
                         </div>
@@ -293,7 +323,7 @@ async function finishConstruction() {
                                 class="flex-1 px-4 py-3 rounded bg-green-600 text-white hover:bg-green-700 transition text-xl font-semibold mt-8 mb-2"
                                 :disabled="loading"
                                 @click="updateStatus('accepted')"
-                                v-if="request.status === 'waiting'"
+                                v-if="requestData.status === 'waiting'"
                             >
                                 Accept
                             </button>
@@ -301,13 +331,13 @@ async function finishConstruction() {
                                 class="flex-1 px-4 py-3 rounded bg-red-600 text-white hover:bg-red-700 transition text-xl font-semibold mt-8 mb-2"
                                 :disabled="loading"
                                 @click="updateStatus('rejected')"
-                                v-if="request.status === 'waiting'"
+                                v-if="requestData.status === 'waiting'"
                             >
                                 Reject
                             </button>
                             <!-- Form Purchased Design -->
 <div
-    v-if="type === 'designer' && request.progress === 'design_start' && request.open_acc"
+    v-if="type === 'designer' && requestData.progress === 'design_start' && requestData.open_acc"
     class="w-full mb-2"
 >
     <div class="bg-white rounded-2xl p-6 mt-6">
@@ -385,7 +415,7 @@ async function finishConstruction() {
 </div>
 
 <button
-    v-if="type === 'contractor' && request.progress === 'construction_start' && request.open_acc"
+    v-if="type === 'contractor' && requestData.progress === 'construction_start' && requestData.open_acc"
     class="flex-1 px-4 py-3 rounded bg-[#AE7A42] text-white hover:bg-blue-800 transition text-xl font-semibold mt-8 mb-2"
     :disabled="loading"
     @click="finishConstruction"
@@ -432,9 +462,9 @@ async function finishConstruction() {
                         </div>
                         <!-- Chat & Open ACC Card -->
                         <div class="flex justify-end mb-6">
-                            <template v-if="(request.progress === 'construction_start' || request.progress === 'design_start')">
+                            <template v-if="(requestData.progress === 'construction_start' || requestData.progress === 'design_start')">
         <span
-            v-if="request.open_acc"
+            v-if="requestData.open_acc"
             class="px-6 py-3 bg-green-100 text-green-700 text-[20px] font-medium rounded-lg shadow flex items-center mr-4"
         >
             ACC dibuka <span class="ml-2 text-green-600 text-2xl font-bold">✓</span>
@@ -486,7 +516,7 @@ async function finishConstruction() {
                     </section>
                     <!-- Chat & Open ACC Card -->
                     <div class="flex justify-end mb-6">
-                            <template v-if="(request.progress === 'construction_start' || request.progress === 'design_start')">
+                            <template v-if="(requestData.progress === 'construction_start' || requestData.progress === 'design_start')">
         <span class="px-6 py-3 bg-green-100 text-green-700 text-[20px] font-medium rounded-lg shadow flex items-center mr-2">
             ACC dibuka <span class="ml-2 text-green-600 text-2xl font-bold">✓</span>
         </span>
