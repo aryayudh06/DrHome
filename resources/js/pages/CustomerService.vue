@@ -267,11 +267,10 @@ onUnmounted(() => {
                                         <p class="text-gray-600 mb-2">File portfolio ({{ selectedMail.portfolio.mime_type }})</p>
                                         <a 
                                             :href="selectedMail.portfolio.url"
-                                            :download="selectedMail.portfolio.filename"
                                             target="_blank"
                                             class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-[#AE7A42] hover:bg-[#9c6d3a] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#AE7A42]"
                                         >
-                                            Download Portfolio
+                                            View Portfolio
                                         </a>
                                     </div>
                                 </div>

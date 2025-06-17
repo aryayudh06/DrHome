@@ -140,50 +140,116 @@ php artisan serve
  ├── 📂 resources
  │   ├── 📂 css
  │   │   └── #️⃣ app.css
- │   └── 📂 js
+ │   ├── 📂 js
  │   │   ├── 📂 components
  │   │   │   ├── 📂 landing
  │   │   │   │   ├── 🟩 LandingFooter.vue
  │   │   │   │   └── 🟩 LandingHeader.vue
- │   │   │   └── 📂 ui
- │   │   │       ├── 📂 avatar
- │   │   │       ├── 📂 breadcrumb
- │   │   │       ├── 📂 button
- │   │   │       ├── 📂 card
- │   │   │       ├── 📂 checkbox
- │   │   │       ├── 📂 collapsible
- │   │   │       ├── 📂 dialog
- │   │   │       ├── 📂 dropdown-menu
- │   │   │       ├── 📂 input
- │   │   │       ├── 📂 label
- │   │   │       ├── 📂 navigation-menu
- │   │   │       ├── 📂 separator
- │   │   │       ├── 📂 sheet
- │   │   │       ├── 📂 sidebar
- │   │   │       ├── 📂 skeleton
- │   │   │       └── 📂 tooltip
- │   │   ├── 🟩 AppContent.vue
- │   │   ├── 🟩 AppearanceTabs.vue
- │   │   ├── 🟩 AppHeader.vue
- │   │   ├── 🟩 AppLogo.vue
- │   │   ├── 🟩 AppLogoIcon.vue
- │   │   ├── 🟩 AppShell.vue
- │   │   ├── 🟩 AppSidebar.vue
- │   │   ├── 🟩 AppSidebarHeader.vue
- │   │   ├── 🟩 Breadcrumbs.vue
- │   │   ├── 🟩 DeleteUser.vue
- │   │   ├── 🟩 Heading.vue
- │   │   ├── 🟩 HeadingSmall.vue
- │   │   ├── 🟩 Icon.vue
- │   │   ├── 🟩 InputError.vue
- │   │   ├── 🟩 NavFooter.vue
- │   │   ├── 🟩 NavMain.vue
- │   │   ├── 🟩 NavUser.vue
- │   │   ├── 🟩 PlaceholderPattern.vue
- │   │   ├── 🟩 TextLink.vue
- │   │   ├── 🟩 UserInfo.vue
- │   │   └── 🟩 UserMenuContent.vue
- 
+ │   │   │   ├── 📂 ui
+ │   │   │   │   ├── 📂 avatar
+ │   │   │   │   ├── 📂 breadcrumb
+ │   │   │   │   ├── 📂 button
+ │   │   │   │   ├── 📂 card
+ │   │   │   │   ├── 📂 checkbox
+ │   │   │   │   ├── 📂 collapsible
+ │   │   │   │   ├── 📂 dialog
+ │   │   │   │   ├── 📂 dropdown-menu
+ │   │   │   │   ├── 📂 input
+ │   │   │   │   ├── 📂 label
+ │   │   │   │   ├── 📂 navigation-menu
+ │   │   │   │   ├── 📂 separator
+ │   │   │   │   ├── 📂 sheet
+ │   │   │   │   ├── 📂 sidebar
+ │   │   │   │   ├── 📂 skeleton
+ │   │   │   │   └── 📂 tooltip
+ │   │   │   ├── 🟩 AppContent.vue
+ │   │   │   ├── 🟩 AppearanceTabs.vue
+ │   │   │   ├── 🟩 AppHeader.vue
+ │   │   │   ├── 🟩 AppLogo.vue
+ │   │   │   ├── 🟩 AppLogoIcon.vue
+ │   │   │   ├── 🟩 AppShell.vue
+ │   │   │   ├── 🟩 AppSidebar.vue
+ │   │   │   ├── 🟩 AppSidebarHeader.vue
+ │   │   │   ├── 🟩 Breadcrumbs.vue
+ │   │   │   ├── 🟩 DeleteUser.vue
+ │   │   │   ├── 🟩 Heading.vue
+ │   │   │   ├── 🟩 HeadingSmall.vue
+ │   │   │   ├── 🟩 Icon.vue
+ │   │   │   ├── 🟩 InputError.vue
+ │   │   │   ├── 🟩 NavFooter.vue
+ │   │   │   ├── 🟩 NavMain.vue
+ │   │   │   ├── 🟩 NavUser.vue
+ │   │   │   ├── 🟩 PlaceholderPattern.vue
+ │   │   │   ├── 🟩 TextLink.vue
+ │   │   │   ├── 🟩 UserInfo.vue
+ │   │   │   └── 🟩 UserMenuContent.vue
+ │   │   ├── 📂 composables
+ │   │   │   ├── 📄 useAppearance.ts
+ │   │   │   └── 📄 useInitials.ts
+ │   │   ├── 📂 layouts
+ │   │   │   ├── 📂 app
+ │   │   │   │   ├── 🟩 AppHeaderLayout.vue
+ │   │   │   │   └── 🟩 AppSidebarLayout.vue
+ │   │   │   ├── 📂 auth
+ │   │   │   │   ├── 🟩 AuthCardLayout.vue
+ │   │   │   │   ├── 🟩 AuthSimpleLayout.vue
+ │   │   │   │   └── 🟩 AuthSplitLayout.vue
+ │   │   │   ├── 📂 settings
+ │   │   │   │   ├── 🟩 Layout.vue
+ │   │   │   │   ├── 🟩 ApplyLayout.vue
+ │   │   │   │   ├── 🟩 AuthLayout.vue
+ │   │   │   │   └── 🟩 LandingLayout.vue
+ │   │   ├── 📂 lib
+ │   │   │   └── 📄 utils.ts
+ │   │   ├── 📂 pages
+ │   │   │   ├── 📂 admin
+ │   │   │   │   ├── 🟩 AddContractor.vue
+ │   │   │   │   ├── 🟩 AddDesigner.vue
+ │   │   │   │   ├── 🟩 Admin.vue
+ │   │   │   │   ├── 🟩 Ban.
+ │   │   │   │   ├── 🟩 Mail.vue
+ │   │   │   │   └── 🟩 New.vue
+ │   │   │   ├── 📂 auth
+ │   │   │   │   ├── 🟩 ConfirmPassword.vue
+ │   │   │   │   ├── 🟩 ForgotPassword.vue
+ │   │   │   │   ├── 🟩 Login.vue
+ │   │   │   │   ├── 🟩 Register.vue
+ │   │   │   │   ├── 🟩 ResetPassword.vue
+ │   │   │   │   └── 🟩 VerifyEmail.vue
+ │   │   │   ├── 📂 Build_group
+ │   │   │   │   ├── 🟩 Build.vue
+ │   │   │   │   ├── 🟩 DesignerDetail.vue
+ │   │   │   │   └── 🟩 RequestDesigner.vue
+ │   │   │   ├── 📂 contractor
+ │   │   │   │   ├── 🟩 BuildContractor.vue
+ │   │   │   │   ├── 🟩 ContractorDetail.vue
+ │   │   │   │   └── 🟩 RequestContractor.vue
+ │   │   │   ├── 📂 Design_group
+ │   │   │   │   ├── 🟩 Design.vue
+ │   │   │   │   └── 🟩 DesignDetail.vue
+ │   │   │   ├── 📂 settings
+ │   │   │   │   ├── 🟩 Appearance.vue
+ │   │   │   │   ├── 🟩 Password.vue
+ │   │   │   │   └── 🟩 Profile.vue
+ │   │   │   ├── 🟩 Chat.vue
+ │   │   │   ├── 🟩 CustomerService.vue
+ │   │   │   ├── 🟩 Landing.vue
+ │   │   │   ├── 🟩 MyRequest.vue
+ │   │   │   ├── 🟩 MyRequestDetail.vue
+ │   │   │   ├── 🟩 Profile.vue
+ │   │   │   ├── 🟩 PurchasedDesigns.vue
+ │   │   │   ├── 🟩 PurchaseDesign.vue
+ │   │   │   ├── 🟩 Request.vue
+ │   │   │   └── 🟩 RequestDetail.vue
+ │   │   ├── 📂 types
+ │   │   │   ├── 📄 globals.d.ts
+ │   │   │   ├── 📄 index.d.ts
+ │   │   │   └── 📄 ziggy.d.ts
+ │   │   ├── 📄 app.ts
+ │   │   └── 📄 ssr.ts
+ │   ├── 📂 views
+ │   │   └── 📄 app.blade.php
+ ├── 📂 routes
 
 ```
 
