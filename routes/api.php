@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\ContractorController;
 use App\Http\Controllers\Api\MailsAdminController;
 use App\Http\Controllers\ChatController;
+use App\Http\Controllers\MyRequestController;
 use App\Http\Controllers\PurchasedDesignController;
 use App\Http\Controllers\RequestContractorController;
 use App\Http\Controllers\RequestController;
@@ -12,7 +13,7 @@ use App\Http\Controllers\Api\DesignerController;
 use App\Http\Controllers\Api\DesignController;
 use App\Http\Controllers\UserController;
 
-//Route::middleware(['auth:sanctum'])->group(function () {
+Route::middleware(['auth:sanctum'])->group(function () {
 Route::get('designers', [DesignerController::class, 'index']);
 Route::get('designers/{id}', [DesignerController::class, 'show']);
 
@@ -54,4 +55,5 @@ Route::get('/chat/{userId}', [ChatController::class, 'getChats']);
 Route::get('/purchaseddesigns', [PurchasedDesignController::class, 'index']);
 
 Route::get('/request/{id}', [RequestController::class, 'showApi']);
-//});
+Route::get('/myrequest/{id}', [MyRequestController::class, 'showApi']);
+});

@@ -84,6 +84,46 @@ public function show($id)
     ]);
 }
 
+    public function showApi($id)
+    {
+        $user = Auth::user();
+
+        // Cek apakah request milik user di request_contractors
+        $request = RequestContractor::with([
+                'contractor:id,name,avatar',
+                'purchasedDesign'
+            ])
+            ->where('id', $id)
+            ->where('client_id', $user->id)
+            ->first();
+
+        if ($request) {
+            $type = 'contractor';
+        } else {
+            // Jika tidak, cek di request_designers
+            $request = RequestDesigner::with([
+                    'designer:id,name,avatar',
+                    'purchasedDesign'
+                ])
+                ->where('id', $id)
+                ->where('client_id', $user->id)
+                ->first();
+
+            if ($request) {
+                $type = 'designer';
+            } else {
+                return response()->json([
+                    'message' => 'Request not found or not authorized.'
+                ], 404);
+            }
+        }
+
+        return response()->json([
+            'request' => $request,
+            'type' => $type,
+        ]);
+    }
+
 public function pay($type, $id)
 {
     $user = Auth::user();
