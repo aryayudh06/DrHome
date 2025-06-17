@@ -250,7 +250,43 @@ php artisan serve
  │   ├── 📂 views
  │   │   └── 📄 app.blade.php
  ├── 📂 routes
-
+ │   ├── 📄 admin.php
+ │   ├── 📄 api.php
+ │   ├── 📄 auth.php
+ │   ├── 📄 console.php
+ │   ├── 📄 settings.php
+ │   └── 📄 web.php
+ ├── 📂 storage
+ │   ├── 📂 app
+ │   ├── 📂 framework
+ │   └── 📂 logs
+ ├── 📂 tests
+ │   ├── 📂 Feature
+ │   ├── 📂 Unit
+ │   └── 📄 TestCase.php
+ ├── 📂 vendor
+ ├── ⚙️ .editorconfig
+ ├── ⚙️ .env
+ ├── 💲 .env.example
+ ├── 📄 .gitattributes
+ ├── 📄 .gitignore
+ ├── 📄 .prettierignore
+ ├── 📄 .prettierrc
+ ├── 📄 artisan
+ ├── 📦 components.json
+ ├── 📦 composer.json
+ ├── 📦 composer.lock
+ ├── 🐳 Dockerfile
+ ├── 📄 eslint.config.js
+ ├── 📦 package-lock.json
+ ├── 📦 package.json
+ ├── 📄 phpunit.xml
+ ├── 📄 railway.toml
+ ├── 📖 README.md
+ ├── 📜 render.yaml
+ ├── 📄 tsconfig.json
+ ├── 📄 vercel.json
+ └── 📄 vite.config.ts
 ```
 
 ## Landing Page Preview as Guest User
