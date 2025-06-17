@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import AppLayout from '@/layouts/AppLayout.vue';
 import { Head, useForm } from '@inertiajs/vue3';
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, onUnmounted } from 'vue';
 import axios from 'axios';
 
 interface BreadcrumbItem {
@@ -25,6 +25,7 @@ const isLoading = ref(true);
 const error = ref<string | null>(null);
 const showModal = ref(false);
 const selectedMail = ref<any>(null);
+let pollingInterval: number | null = null;
 
 const submit = async () => {
     form.clearErrors();
@@ -40,7 +41,12 @@ const submit = async () => {
             headers: { 'Content-Type': 'multipart/form-data' }
         });
 
-        window.location.reload();
+        // Refresh data after submission
+        await fetchMails();
+        form.reset();
+        if (portfolioInput.value) {
+            portfolioInput.value.value = '';
+        }
     } catch (err: any) {
         error.value = err?.response?.data?.message || 'Gagal mengirim pesan';
     } finally {
@@ -56,10 +62,12 @@ const handleFileChange = (event: Event) => {
 };
 
 const fetchMails = async () => {
-    isLoading.value = true;
     try {
         const response = await axios.get('/api/customerservice');
-        mails.value = response.data.data || [];
+        // Only update if there are changes
+        if (JSON.stringify(response.data.data) !== JSON.stringify(mails.value)) {
+            mails.value = response.data.data || [];
+        }
     } catch (err) {
         console.error(err);
         error.value = 'Gagal memuat riwayat pesan';
@@ -79,7 +87,18 @@ const openMailDetail = async (mailId: number) => {
     }
 };
 
-onMounted(fetchMails);
+// Start polling when component mounts
+onMounted(() => {
+    fetchMails();
+    pollingInterval = window.setInterval(fetchMails, 2000); // Poll every 2 seconds
+});
+
+// Clean up interval when component unmounts
+onUnmounted(() => {
+    if (pollingInterval) {
+        clearInterval(pollingInterval);
+    }
+});
 </script>
 
 <template>

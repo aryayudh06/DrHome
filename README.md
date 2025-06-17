@@ -97,6 +97,93 @@ php artisan serve
  │   ├── 📄 services.php
  │   └── 📄 session.php
  ├── 📂 database
+ │   ├── 📂 factories
+ │   │   └── 📄 UserFactory.php
+ │   ├── 📂 migrations
+ │   │   ├── 📄 0001_01_01_000000_create_users_table.php
+ │   │   ├── 📄 0001_01_01_000001_create_cache_table.php
+ │   │   ├── 📄 0001_01_01_000002_create_jobs_table.php
+ │   │   ├── 📄 2025_05_01_162027_create_designs_table.php
+ │   │   ├── 📄 2025_05_05_115944_add_role_status_to_users_table.php
+ │   │   ├── 📄 2025_05_05_124058_create_mails_admin_table.php
+ │   │   ├── 📄 2025_05_07_203728_create_riwayat_email_table.php
+ │   │   ├── 📄 2025_05_16_122534_add_to_users_table.php
+ │   │   ├── 📄 2025_05_16_162221_create_contractors_table.php
+ │   │   ├── 📄 2025_05_16_183222_create_designers_table.php
+ │   │   ├── 📄 2025_06_03_193741_create_purchased_designs_table.php
+ │   │   ├── 📄 2025_06_04_143203_create_request_contractors_table.php
+ │   │   ├── 📄 2025_06_04_204015_create_request_designers_table.php
+ │   │   └── 📄 2025_06_05_123253_create_chats_table.php
+ │   ├── 📂 seeders
+ │   │   ├── 📄 DatabaseSeeder.php
+ │   │   ├── 📄 DesignsTableSeeder.php
+ │   │   └── 📄 UsersTableSeeder.php
+ │   └── 📄 .gitignore
+ ├── 📂 docker
+ │   └── 📂 apache
+ │       └── ⚙️ 000-default.conf
+ ├── 📂 node_modules
+ ├── 📂 public
+ │   ├── 📂 background
+ │   ├── 📂 build-assets
+ │   ├── 📂 designers
+ │   ├── 📂 designs
+ │   ├── 📂 images
+ │   ├── 📂 portfolio
+ │   ├── 📂 storage
+ │   ├── 📂 videos
+ │   ├── ⚙️ .htaccess
+ │   ├── ⭐ favicon.ico
+ │   ├── 📄 hot
+ │   ├── 📄 index.php
+ │   └── 📄 robots.txt
+ ├── 📂 resources
+ │   ├── 📂 css
+ │   │   └── #️⃣ app.css
+ │   └── 📂 js
+ │   │   ├── 📂 components
+ │   │   │   ├── 📂 landing
+ │   │   │   │   ├── 🟩 LandingFooter.vue
+ │   │   │   │   └── 🟩 LandingHeader.vue
+ │   │   │   └── 📂 ui
+ │   │   │       ├── 📂 avatar
+ │   │   │       ├── 📂 breadcrumb
+ │   │   │       ├── 📂 button
+ │   │   │       ├── 📂 card
+ │   │   │       ├── 📂 checkbox
+ │   │   │       ├── 📂 collapsible
+ │   │   │       ├── 📂 dialog
+ │   │   │       ├── 📂 dropdown-menu
+ │   │   │       ├── 📂 input
+ │   │   │       ├── 📂 label
+ │   │   │       ├── 📂 navigation-menu
+ │   │   │       ├── 📂 separator
+ │   │   │       ├── 📂 sheet
+ │   │   │       ├── 📂 sidebar
+ │   │   │       ├── 📂 skeleton
+ │   │   │       └── 📂 tooltip
+ │   │   ├── 🟩 AppContent.vue
+ │   │   ├── 🟩 AppearanceTabs.vue
+ │   │   ├── 🟩 AppHeader.vue
+ │   │   ├── 🟩 AppLogo.vue
+ │   │   ├── 🟩 AppLogoIcon.vue
+ │   │   ├── 🟩 AppShell.vue
+ │   │   ├── 🟩 AppSidebar.vue
+ │   │   ├── 🟩 AppSidebarHeader.vue
+ │   │   ├── 🟩 Breadcrumbs.vue
+ │   │   ├── 🟩 DeleteUser.vue
+ │   │   ├── 🟩 Heading.vue
+ │   │   ├── 🟩 HeadingSmall.vue
+ │   │   ├── 🟩 Icon.vue
+ │   │   ├── 🟩 InputError.vue
+ │   │   ├── 🟩 NavFooter.vue
+ │   │   ├── 🟩 NavMain.vue
+ │   │   ├── 🟩 NavUser.vue
+ │   │   ├── 🟩 PlaceholderPattern.vue
+ │   │   ├── 🟩 TextLink.vue
+ │   │   ├── 🟩 UserInfo.vue
+ │   │   └── 🟩 UserMenuContent.vue
+ 
 
 ```
 
