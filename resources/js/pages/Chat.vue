@@ -225,7 +225,7 @@ onUnmounted(() => {
                 <input
                     v-model="message"
                     type="text"
-                    class="flex-1 px-4 py-2 border rounded-lg focus:ring-2 focus:ring-[#AE7A42] focus:border-[#AE7A42]"
+                    class="w-full px-4 py-2 ml-2 mr-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#AE7A42] focus:border-[#AE7A42] outline-none transition"
                     placeholder="Type your message..."
                     :disabled="sending"
                     autocomplete="off"

@@ -54,6 +54,8 @@ Route::post('/chat/send', [ChatController::class, 'send']);
 Route::get('/chat/{userId}', [ChatController::class, 'getChats']);
 Route::get('/purchaseddesigns', [PurchasedDesignController::class, 'index']);
 
+// routes for soft polling refresh every 2 seconds
 Route::get('/request/{id}', [RequestController::class, 'showApi']);
 Route::get('/myrequest/{id}', [MyRequestController::class, 'showApi']);
+Route::get('/requests', [RequestController::class, 'indexApi']);
 });
