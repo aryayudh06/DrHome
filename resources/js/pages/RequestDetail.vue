@@ -462,14 +462,14 @@ onUnmounted(() => {
                         </div>
                         <!-- Chat & Open ACC Card -->
                         <div class="flex justify-end mb-6">
-                            <template>
-                                <span
-                                    v-if="(requestData.progress === 'construction_start' || requestData.progress === 'design_start') && requestData.open_acc"
-                                    class="px-6 py-3 bg-green-100 text-green-700 text-[20px] font-medium rounded-lg shadow flex items-center mr-4"
-                                >
-                                    ACC dibuka <span class="ml-2 text-green-600 text-2xl font-bold">✓</span>
-                                </span>
-                            </template>
+                            <template v-if="(requestData.progress === 'construction_start' || requestData.progress === 'design_start')">
+        <span
+            v-if="requestData.open_acc"
+            class="px-6 py-3 bg-green-100 text-green-700 text-[20px] font-medium rounded-lg shadow flex items-center mr-4"
+        >
+            ACC dibuka <span class="ml-2 text-green-600 text-2xl font-bold">✓</span>
+        </span>
+    </template>
     <Link
         :href="`/chat/${getTargetUser()?.id}/${getClient()?.id}`"
         class="px-6 py-3 bg-[#AE7A42] hover:bg-[#8c5e30] text-white text-[20px] font-medium rounded-lg shadow transition flex items-center"
