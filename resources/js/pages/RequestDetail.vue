@@ -336,7 +336,7 @@ onUnmounted(() => {
                             >
                                 Reject
                             </button>
-                            
+
                             <!-- Form Purchased Design -->
 <div
     v-if="type === 'designer' && requestData.progress === 'design_start' && requestData.open_acc"
@@ -464,7 +464,7 @@ onUnmounted(() => {
                         </div>
                         <!-- Chat & Open ACC Card -->
                         <div class="flex justify-end mb-6">
-                            <template v-if="(requestData.progress === 'construction_start' || requestData.progress === 'design_start')">
+                            <template v-if="(requestData.open_acc)">
         <span
             v-if="requestData.open_acc"
             class="px-6 py-3 bg-green-100 text-green-700 text-[20px] font-medium rounded-lg shadow flex items-center mr-4"
@@ -518,7 +518,7 @@ onUnmounted(() => {
                     </section>
                     <!-- Chat & Open ACC Card -->
                     <div class="flex justify-end mb-6">
-                            <template v-if="(requestData.progress === 'construction_start' || requestData.progress === 'design_start')">
+                            <template v-if="(requestData.open_acc)">
         <span class="px-6 py-3 bg-green-100 text-green-700 text-[20px] font-medium rounded-lg shadow flex items-center mr-2">
             ACC dibuka <span class="ml-2 text-green-600 text-2xl font-bold">✓</span>
         </span>
