@@ -327,7 +327,6 @@ onUnmounted(() => {
                             >
                                 Accept
                             </button>
-
                             <button
                                 class="flex-1 px-4 py-3 rounded bg-red-600 text-white hover:bg-red-700 transition text-xl font-semibold mt-8 mb-2"
                                 :disabled="loading"
@@ -336,7 +335,6 @@ onUnmounted(() => {
                             >
                                 Reject
                             </button>
-
                             <!-- Form Purchased Design -->
 <div
     v-if="type === 'designer' && requestData.progress === 'design_start' && requestData.open_acc"
@@ -464,14 +462,14 @@ onUnmounted(() => {
                         </div>
                         <!-- Chat & Open ACC Card -->
                         <div class="flex justify-end mb-6">
-                            <template v-if="(requestData.open_acc)">
-        <span
-            v-if="requestData.open_acc"
-            class="px-6 py-3 bg-green-100 text-green-700 text-[20px] font-medium rounded-lg shadow flex items-center mr-4"
-        >
-            ACC dibuka <span class="ml-2 text-green-600 text-2xl font-bold">✓</span>
-        </span>
-    </template>
+                            <template>
+                                <span
+                                    v-if="(requestData.progress === 'construction_start' || requestData.progress === 'design_start') && requestData.open_acc"
+                                    class="px-6 py-3 bg-green-100 text-green-700 text-[20px] font-medium rounded-lg shadow flex items-center mr-4"
+                                >
+                                    ACC dibuka <span class="ml-2 text-green-600 text-2xl font-bold">✓</span>
+                                </span>
+                            </template>
     <Link
         :href="`/chat/${getTargetUser()?.id}/${getClient()?.id}`"
         class="px-6 py-3 bg-[#AE7A42] hover:bg-[#8c5e30] text-white text-[20px] font-medium rounded-lg shadow transition flex items-center"
@@ -518,7 +516,7 @@ onUnmounted(() => {
                     </section>
                     <!-- Chat & Open ACC Card -->
                     <div class="flex justify-end mb-6">
-                            <template v-if="(requestData.open_acc)">
+                            <template v-if="(requestData.progress === 'construction_start' || requestData.progress === 'design_start') && requestData.open_acc">
         <span class="px-6 py-3 bg-green-100 text-green-700 text-[20px] font-medium rounded-lg shadow flex items-center mr-2">
             ACC dibuka <span class="ml-2 text-green-600 text-2xl font-bold">✓</span>
         </span>
