@@ -297,16 +297,17 @@
 
           <!-- About & Portfolio (for designer/contractor) -->
           <template v-if="user.role === 'designer' || user.role === 'contractor'">
-  <!-- About Section -->
-  <div class="bg-[#FAAE5C] text-white rounded-3xl p-6 shadow-sm">
-  <div class="flex justify-between items-center mb-4">
-    <h3 class="text-2xl font-bold">About</h3>
-    <Button v-if="canEditAbout" size="sm" class="bg-white text-[#AE7A42] hover:bg-[#F6F6F6]" @click="openAboutModal">
-      Edit
-    </Button>
-  </div>
-  <p class="mb-4">{{ description }}</p>
-</div>
+
+          <!-- About Section -->
+          <div class="bg-[#FAAE5C] text-white rounded-3xl p-6 shadow-sm">
+            <div class="flex justify-between items-center mb-4">
+              <h3 class="text-2xl font-bold">About</h3>
+              <Button v-if="canEditAbout" size="sm" class="bg-white text-[#AE7A42] hover:bg-[#F6F6F6]" @click="openAboutModal">
+                Edit
+              </Button>
+            </div>
+            <p class="mb-4">{{ description }}</p>
+          </div>
 
   <!-- Portfolio Card -->
 <div class="rounded-3xl p-6 mb-4 shadow-sm" style="background-color: #AE7A42;">
@@ -324,7 +325,7 @@
         frameborder="0"
         allowfullscreen
       ></iframe>
-      
+
     </template>
     <template v-else>
       <div class="text-white">File tidak dapat dipreview.</div>
