@@ -2,6 +2,10 @@
 
 Platform Digital untuk Memudahkan Perencanaan dan Pembangunan Rumah. Temukan designer, contractor untuk membangun rumah Anda. Dr. Home: platform berbasis web yang menghubungkan klien dengan desainer dan kontraktor profesional untuk proyek desain dan konstruksi rumah, menawarkan fitur seperti pencarian desain siap pakai, pengajuan request custom, portofolio desainer/kontraktor, sistem chat real-time, pembelian desain, serta manajemen proyek terintegrasi dengan otentikasi berbasis session dan otorisasi role-based (klien, desainer, kontraktor, admin) untuk pengalaman yang aman dan terpersonalisasi.
 
+### Marketing Aplikasi
+
+<a>https://youtu.be/dkWPRMVSncE?si=_KwjrMEZyO7h9qUq</a>
+
 # Installation Steps
 
 1. Clone project
@@ -56,7 +60,10 @@ php artisan serve
 
 # Struktur Proyek / Folder
 
-```bash
+<details>
+<summary>Click untuk melihat struktur secara lengkap</summary>
+
+```
  🏠 DrHome
  ├── 📂 app
  │   ├── 📂 Http
@@ -323,6 +330,24 @@ php artisan serve
  ├── 📄 vercel.json
  └── 📄 vite.config.ts
 ```
+</details>
+
+## 🛠 Technology Stack and Architecture
+
+### Backend
+- **Laravel** (PHP Framework)
+  - MVC Architecture
+  - Eloquent ORM
+  
+### Frontend
+- **Vue 3**
+- **TypeScript**
+- **Inertia.js** (For Laravel-Vue integration)
+- **Tailwind CSS** (Utility-first CSS framework)
+- **Vite** (Build tool)
+
+### Additional Tools
+- **MySQL** (Database)
 
 ## Landing Page Preview as Guest User
 
