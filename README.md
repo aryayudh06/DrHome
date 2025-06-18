@@ -4,18 +4,53 @@ Platform Digital untuk Memudahkan Perencanaan dan Pembangunan Rumah. Temukan des
 
 # Installation Steps
 
+1. Clone project
 ```bash
 git clone https://github.com/aryayudh06/DrHome
+```
+
+2. Masuk ke direktori project
+```bash
 cd DrHome
+```
+
+3. Install composer
+```bash
 composer install
+```
+
+4. Install npm
+```bash
 npm install
+```
+
+5. Copy .env.example menjadi .env dan modifikasi isi .env
+```bash
 cp .env.example .env
+```
 
+6. Generate key untuk aplikasi
+```bash
 php artisan key:generate
-php artisan migrate:fresh --seed
-php artisan storage:link
+```
 
+7. Lakukan migrasi dengan seeder
+```bash
+php artisan migrate:fresh --seed
+```
+
+8. Membuat symbolic link dari public/storage ke storage/app/public
+```bash
+php artisan storage:link
+```
+
+9. Menjalankan Vite / Mix untuk kompilasi aset frontend
+``` bash
 npm run dev
+```
+
+10. Menjalankan server Laravel
+```bash
 php artisan serve
 ```
 

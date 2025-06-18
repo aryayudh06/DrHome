@@ -227,7 +227,21 @@ onUnmounted(() => {
                                 <div class="text-gray-500">Role</div>
                                 <div class="text-gray-500">: {{ selectedMail?.role }}</div>
                                 <div class="text-gray-500">Dikirim</div>
-                                <div class="text-gray-500">: {{ selectedMail?.created_at }}</div>
+                                                
+                                <!-- Format penanggalan yang lebih baik -->
+                                <div class="text-gray-500">
+                                : {{
+                                    new Date(selectedMail?.created_at).toLocaleString('id-ID', {
+                                    day: 'numeric',
+                                    month: 'long',
+                                    year: 'numeric',
+                                    hour: '2-digit',
+                                    minute: '2-digit',
+                                    hour12: false
+                                    })
+                                }}
+                                </div>
+                                
                             </div>
                         </div>
                         <button 

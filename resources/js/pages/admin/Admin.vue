@@ -191,7 +191,20 @@ onUnmounted(() => {
                 <div class="text-gray-500">: {{ selectedMail?.role }}</div>
 
                 <div class="text-gray-500">Dikirim</div>
-                <div class="text-gray-500">: {{ new Date(selectedMail?.created_at).toLocaleString() }}</div>
+                <!-- Format penanggalan yang lebih baik -->
+                <div class="text-gray-500">
+                  : {{
+                    new Date(selectedMail?.created_at).toLocaleString('id-ID', {
+                      day: 'numeric',
+                      month: 'long',
+                      year: 'numeric',
+                      hour: '2-digit',
+                      minute: '2-digit',
+                      hour12: false
+                    })
+                  }}
+                </div>
+
               </div>
             </div>
             <button 
@@ -229,6 +242,7 @@ onUnmounted(() => {
                   />
                   <div v-else class="text-center">
                     <p class="text-gray-600 mb-2">File portfolio ({{ selectedMail.portfolio.mime_type }})</p>
+                    
                     <a 
                       :href="selectedMail.portfolio.url"
                       target="_blank"
@@ -237,6 +251,7 @@ onUnmounted(() => {
                     >
                       View File
                     </a>
+                    
                   </div>
                 </div>
               </div>

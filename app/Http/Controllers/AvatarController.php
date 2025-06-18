@@ -103,33 +103,33 @@ public function updateSpecialty(Request $request)
     ]);
 }
 
-public function updateAbout(Request $request)
-{
-    $request->validate([
-        'description' => 'required|string|max:1000',
-    ]);
+    public function updateAbout(Request $request)
+    {
+        $request->validate([
+            'description' => 'required|string|max:1000',
+        ]);
 
-    $user = auth()->user();
-    
-    if ($user->role === 'designer') {
-        $model = Designer::firstOrCreate(
-            ['user_id' => $user->id],
-            ['specialty' => '', 'description' => '']
-        );
-    } elseif ($user->role === 'contractor') {
-        $model = Contractor::firstOrCreate(
-            ['user_id' => $user->id],
-            ['specialty' => '', 'description' => '']
-        );
-    } else {
-        return response()->json(['error' => 'Unauthorized action'], 403);
+        $user = auth()->user();
+        
+        if ($user->role === 'designer') {
+            $model = Designer::firstOrCreate(
+                ['user_id' => $user->id],
+                ['specialty' => '', 'description' => '']
+            );
+        } elseif ($user->role === 'contractor') {
+            $model = Contractor::firstOrCreate(
+                ['user_id' => $user->id],
+                ['specialty' => '', 'description' => '']
+            );
+        } else {
+            return response()->json(['error' => 'Unauthorized action'], 403);
+        }
+
+        $model->description = $request->description;
+        $model->save();
+
+        return response()->json([
+            'description' => $model->description,
+        ]);
     }
-
-    $model->description = $request->description;
-    $model->save();
-
-    return response()->json([
-        'description' => $model->description,
-    ]);
-}
 }
