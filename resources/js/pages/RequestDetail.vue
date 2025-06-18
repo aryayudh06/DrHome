@@ -327,6 +327,7 @@ onUnmounted(() => {
                             >
                                 Accept
                             </button>
+
                             <button
                                 class="flex-1 px-4 py-3 rounded bg-red-600 text-white hover:bg-red-700 transition text-xl font-semibold mt-8 mb-2"
                                 :disabled="loading"
@@ -335,6 +336,7 @@ onUnmounted(() => {
                             >
                                 Reject
                             </button>
+                            
                             <!-- Form Purchased Design -->
 <div
     v-if="type === 'designer' && requestData.progress === 'design_start' && requestData.open_acc"

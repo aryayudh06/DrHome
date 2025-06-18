@@ -316,6 +316,7 @@
       <img :src="portfolio.url" alt="Portfolio" class="max-w-xs rounded shadow mx-auto" />
     </template>
     <template v-else-if="/\.pdf$/i.test(portfolio.url)">
+
       <iframe
         :src="portfolio.url"
         class="w-full rounded shadow"
@@ -323,6 +324,7 @@
         frameborder="0"
         allowfullscreen
       ></iframe>
+      
     </template>
     <template v-else>
       <div class="text-white">File tidak dapat dipreview.</div>
